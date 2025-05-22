@@ -30,26 +30,6 @@
     showModal = true;
   }
 
-  function handleCopyEmail(event: CustomEvent<EmailData>) {
-    const email = event.detail;
-    const emailText = `Subject: ${email.subject}\n\n${email.content}`;
-    
-    navigator.clipboard.writeText(emailText).then(() => {
-      showNotification('Email copied to clipboard!', 'success');
-    }).catch(() => {
-      showNotification('Failed to copy email', 'error');
-    });
-  }
-
-  function handleDeleteEmail(event: CustomEvent<number>) {
-    const emailId = event.detail;
-    
-    if (!confirm('Are you sure you want to delete this email?')) return;
-    
-    emails = emailStorage.deleteEmail(emailId);
-    showNotification('Email deleted successfully', 'success');
-  }
-
   function closeModal() {
     showModal = false;
     selectedEmail = null;
@@ -75,10 +55,9 @@
 
 <div class="page-container">
   <div class="container">
-    
     <header class="page-header">
       <div class="header-content">
-        <h1 class="page-title">Generated Emails</h1>
+        <h1 class="page-title">Emails</h1>
         <p class="page-subtitle">View and manage your emails</p>
       </div>
       <button class="back-button" on:click={goBack}>
@@ -108,15 +87,12 @@
             isPopular={index === 0}
             animationDelay={index * 100}
             on:view={handleViewEmail}
-            on:copy={handleCopyEmail}
-            on:delete={handleDeleteEmail}
           />
         {/each}
       </div>
     {/if}
   </div>
 </div>
-
 
 {#if showModal && selectedEmail}
   <div class="modal-overlay" on:click={closeModal}>
@@ -192,7 +168,7 @@
 
   .page-container {
     min-height: 100vh;
-    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0d0d0d 100%);
+    background: #0d0d0d;
     color: #fff;
   }
 
@@ -233,14 +209,11 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-  }
-
-  .back-button {
-    background: #d4e157; 
+    background: #d4e157;
     color: #000;
   }
 
-  .back-button:hover {
+  .back-button:hover, .cta-button:hover {
     background: #c0ca33;
     transform: translateY(-1px);
   }
@@ -297,16 +270,8 @@
   }
 
   .cta-button {
-    background: #d4e157; 
-    color: #000;
     font-size: 16px;
     padding: 16px 32px;
-  }
-
-  .cta-button:hover {
-    background: #c0ca33;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
   }
 
   .cards-grid {

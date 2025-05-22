@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  
+
   export let email: {
     id: number;
     subject: string;
@@ -19,29 +19,23 @@
   function handleView() {
     dispatch('view', email);
   }
-
-  function handleCopy() {
-    dispatch('copy', email);
-  }
-
-  function handleDelete() {
-    dispatch('delete', email.id);
-  }
 </script>
 
 <div 
   class="email-card" 
   style="animation-delay: {animationDelay}ms"
 >
- 
-  
+  {#if isPopular}
+    <div class="popular-badge">Most Popular</div>
+  {/if}
+
   <div class="card-content">
-    
     <div class="card-header">
       <h3 class="card-title">{email.subject}</h3>
     </div>
+
     
-   
+
     <div class="details-list">
       <div class="detail-item">
         <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
@@ -52,7 +46,7 @@
       </div>
       <div class="detail-item">
         <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
         </svg>
         <span class="detail-name">Type</span>
         <span class="detail-value type-{email.type.toLowerCase()}">{email.type}</span>
@@ -65,17 +59,10 @@
         <span class="detail-value">{new Date(email.timestamp).toLocaleDateString()}</span>
       </div>
     </div>
-    
-    
+
     <button class="action-button" on:click={handleView}>
       View Email
     </button>
-    
-   
-    <div class="secondary-actions">
-      <button class="secondary-btn" on:click={handleCopy}>Copy Content</button>
-      <button class="delete-btn" on:click={handleDelete}>Delete</button>
-    </div>
   </div>
 </div>
 
@@ -83,7 +70,7 @@
   .email-card {
     width: 320px; 
     height: 400px; 
-    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    background: linear-gradient(to bottom, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%);
     border-radius: 16px;
     padding: 24px;
     position: relative;
@@ -93,6 +80,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
     overflow: hidden; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .email-card:hover {
@@ -100,7 +88,6 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   }
 
-  
   .email-card::before {
     content: '';
     position: absolute;
@@ -136,30 +123,58 @@
   .card-content {
     display: flex;
     flex-direction: column;
-    height: 100%; 
+    height: 100%;
+    justify-content: space-between;
   }
 
   .card-header {
+    flex-shrink: 0;
     margin-bottom: 16px;
-    flex-shrink: 0; 
   }
 
   .card-title {
-    font-size: 24px;
+    content: attr(data-first-word);
+    font-size: 20px;
     font-weight: 700;
     color: #fff;
     line-height: 1.2;
-    word-wrap: break-word;
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .details-list {
+  .tag-bar {
+    display: flex;
+    gap: 8px;
     margin-bottom: 16px;
-    flex-grow: 1; 
-    overflow-y: auto; 
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #333;
+    color: #d4e157;
+    white-space: nowrap;
+  }
+
+  .tone-tag {
+    background-color: #0ea5e9;
+    color: #fff;
+  }
+
+  .prompt-tag {
+    background-color: #f59e0b;
+    color: #000;
+  }
+
+  .details-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-top: 60px;
   }
 
   .detail-item {
@@ -167,6 +182,7 @@
     align-items: center;
     margin-bottom: 12px;
     font-size: 14px;
+    color: #9ca3af;
   }
 
   .detail-item:last-child {
@@ -199,7 +215,7 @@
 
   .action-button {
     width: 100%;
-    background: #d4e157; 
+    background: #d4e157;
     color: #000;
     font-weight: 600;
     font-size: 16px;
@@ -208,47 +224,10 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-bottom: 12px;
-    flex-shrink: 0; 
   }
 
   .action-button:hover {
     background: #c0ca33;
     transform: translateY(-1px);
-  }
-
-  .secondary-actions {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0; 
-  }
-
-  .secondary-btn, .delete-btn {
-    flex: 1;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .secondary-btn {
-    background: #4b5563; 
-    color: #fff;
-  }
-
-  .secondary-btn:hover {
-    background: #6b7280; 
-  }
-
-  .delete-btn {
-    background: #ef4444; 
-    color: #fff;
-  }
-
-  .delete-btn:hover {
-    background: #dc2626; 
   }
 </style>
