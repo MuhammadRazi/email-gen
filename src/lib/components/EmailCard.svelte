@@ -62,7 +62,7 @@
 <style>
   .email-card {
     width: 320px; 
-    height: 400px; 
+    height: 400px;
     background: linear-gradient(to top, #d4e157 0%, #000000 50%, #000000 100%);
     border-radius: 16px;
     padding: 24px;
@@ -74,6 +74,7 @@
     transform: translateY(30px) scale(0.95);
     overflow: hidden; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
   }
 
   .email-card:hover {
