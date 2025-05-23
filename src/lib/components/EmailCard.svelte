@@ -63,7 +63,15 @@
   .email-card {
     width: 320px; 
     height: 400px;
-    background: linear-gradient(to top, #d4e157 0%, #000000 50%, #000000 100%);
+  background: linear-gradient(
+      to bottom,  /* Direction remains bottom (yellow at bottom) */
+      #000000 0%,  /* Black at top */
+      #0a0a0a 15%, 
+      #1a1a1a 40%, 
+      #333317 70%, 
+      #3C4321 85%, 
+      #3C4321 100%  /* Yellow at bottom */
+    );
     border-radius: 16px;
     padding: 24px;
     position: relative;
