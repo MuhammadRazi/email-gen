@@ -25,17 +25,10 @@
   class="email-card" 
   style="animation-delay: {animationDelay}ms"
 >
-  {#if isPopular}
-    <div class="popular-badge">Most Popular</div>
-  {/if}
-
   <div class="card-content">
     <div class="card-header">
       <h3 class="card-title">{email.subject}</h3>
     </div>
-
-    
-
     <div class="details-list">
       <div class="detail-item">
         <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
@@ -70,7 +63,7 @@
   .email-card {
     width: 320px; 
     height: 400px; 
-    background: linear-gradient(to bottom, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%);
+    background: linear-gradient(to top, #d4e157 0%, #000000 50%, #000000 100%);
     border-radius: 16px;
     padding: 24px;
     position: relative;
