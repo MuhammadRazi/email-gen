@@ -67,7 +67,7 @@
     border-radius: 16px;
     padding: 24px;
     position: relative;
-    border: 1px solid #404040;
+    border: 1px solid #060606;
     transition: all 0.3s ease;
     animation: slideInUp 0.5s ease-out forwards;
     opacity: 0;
